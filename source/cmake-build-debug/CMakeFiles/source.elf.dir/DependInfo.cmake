@@ -25,6 +25,7 @@ set(CMAKE_ASM_TARGET_INCLUDE_PATH
   "../Drivers/CMSIS/Include"
   )
 set(CMAKE_DEPENDS_CHECK_C
+  "D:/HC/Desktop/BrushlessMotor-Driver/source/Core/Src/adc.c" "D:/HC/Desktop/BrushlessMotor-Driver/source/cmake-build-debug/CMakeFiles/source.elf.dir/Core/Src/adc.c.obj"
   "D:/HC/Desktop/BrushlessMotor-Driver/source/Core/Src/gpio.c" "D:/HC/Desktop/BrushlessMotor-Driver/source/cmake-build-debug/CMakeFiles/source.elf.dir/Core/Src/gpio.c.obj"
   "D:/HC/Desktop/BrushlessMotor-Driver/source/Core/Src/main.c" "D:/HC/Desktop/BrushlessMotor-Driver/source/cmake-build-debug/CMakeFiles/source.elf.dir/Core/Src/main.c.obj"
   "D:/HC/Desktop/BrushlessMotor-Driver/source/Core/Src/stm32f1xx_hal_msp.c" "D:/HC/Desktop/BrushlessMotor-Driver/source/cmake-build-debug/CMakeFiles/source.elf.dir/Core/Src/stm32f1xx_hal_msp.c.obj"
@@ -32,7 +33,10 @@ set(CMAKE_DEPENDS_CHECK_C
   "D:/HC/Desktop/BrushlessMotor-Driver/source/Core/Src/syscalls.c" "D:/HC/Desktop/BrushlessMotor-Driver/source/cmake-build-debug/CMakeFiles/source.elf.dir/Core/Src/syscalls.c.obj"
   "D:/HC/Desktop/BrushlessMotor-Driver/source/Core/Src/sysmem.c" "D:/HC/Desktop/BrushlessMotor-Driver/source/cmake-build-debug/CMakeFiles/source.elf.dir/Core/Src/sysmem.c.obj"
   "D:/HC/Desktop/BrushlessMotor-Driver/source/Core/Src/system_stm32f1xx.c" "D:/HC/Desktop/BrushlessMotor-Driver/source/cmake-build-debug/CMakeFiles/source.elf.dir/Core/Src/system_stm32f1xx.c.obj"
+  "D:/HC/Desktop/BrushlessMotor-Driver/source/Core/Src/tim.c" "D:/HC/Desktop/BrushlessMotor-Driver/source/cmake-build-debug/CMakeFiles/source.elf.dir/Core/Src/tim.c.obj"
   "D:/HC/Desktop/BrushlessMotor-Driver/source/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c" "D:/HC/Desktop/BrushlessMotor-Driver/source/cmake-build-debug/CMakeFiles/source.elf.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c.obj"
+  "D:/HC/Desktop/BrushlessMotor-Driver/source/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_adc.c" "D:/HC/Desktop/BrushlessMotor-Driver/source/cmake-build-debug/CMakeFiles/source.elf.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_adc.c.obj"
+  "D:/HC/Desktop/BrushlessMotor-Driver/source/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_adc_ex.c" "D:/HC/Desktop/BrushlessMotor-Driver/source/cmake-build-debug/CMakeFiles/source.elf.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_adc_ex.c.obj"
   "D:/HC/Desktop/BrushlessMotor-Driver/source/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c" "D:/HC/Desktop/BrushlessMotor-Driver/source/cmake-build-debug/CMakeFiles/source.elf.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj"
   "D:/HC/Desktop/BrushlessMotor-Driver/source/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c" "D:/HC/Desktop/BrushlessMotor-Driver/source/cmake-build-debug/CMakeFiles/source.elf.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c.obj"
   "D:/HC/Desktop/BrushlessMotor-Driver/source/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_exti.c" "D:/HC/Desktop/BrushlessMotor-Driver/source/cmake-build-debug/CMakeFiles/source.elf.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_exti.c.obj"

@@ -96,6 +96,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="D:/HC/Desktop/BrushlessMotor-Driver/source/Core/Inc/adc.h">
+			<Option target="source.elf"/>
+		</Unit>
 		<Unit filename="D:/HC/Desktop/BrushlessMotor-Driver/source/Core/Inc/gpio.h">
 			<Option target="source.elf"/>
 		</Unit>
@@ -106,6 +109,12 @@
 			<Option target="source.elf"/>
 		</Unit>
 		<Unit filename="D:/HC/Desktop/BrushlessMotor-Driver/source/Core/Inc/stm32f1xx_it.h">
+			<Option target="source.elf"/>
+		</Unit>
+		<Unit filename="D:/HC/Desktop/BrushlessMotor-Driver/source/Core/Inc/tim.h">
+			<Option target="source.elf"/>
+		</Unit>
+		<Unit filename="D:/HC/Desktop/BrushlessMotor-Driver/source/Core/Src/adc.c">
 			<Option target="source.elf"/>
 		</Unit>
 		<Unit filename="D:/HC/Desktop/BrushlessMotor-Driver/source/Core/Src/gpio.c">
@@ -127,6 +136,9 @@
 			<Option target="source.elf"/>
 		</Unit>
 		<Unit filename="D:/HC/Desktop/BrushlessMotor-Driver/source/Core/Src/system_stm32f1xx.c">
+			<Option target="source.elf"/>
+		</Unit>
+		<Unit filename="D:/HC/Desktop/BrushlessMotor-Driver/source/Core/Src/tim.c">
 			<Option target="source.elf"/>
 		</Unit>
 		<Unit filename="D:/HC/Desktop/BrushlessMotor-Driver/source/Core/Startup/startup_stm32f103c8tx.s">
@@ -210,6 +222,12 @@
 		<Unit filename="D:/HC/Desktop/BrushlessMotor-Driver/source/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h">
 			<Option target="source.elf"/>
 		</Unit>
+		<Unit filename="D:/HC/Desktop/BrushlessMotor-Driver/source/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_adc.h">
+			<Option target="source.elf"/>
+		</Unit>
+		<Unit filename="D:/HC/Desktop/BrushlessMotor-Driver/source/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_adc_ex.h">
+			<Option target="source.elf"/>
+		</Unit>
 		<Unit filename="D:/HC/Desktop/BrushlessMotor-Driver/source/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h">
 			<Option target="source.elf"/>
 		</Unit>
@@ -253,6 +271,12 @@
 			<Option target="source.elf"/>
 		</Unit>
 		<Unit filename="D:/HC/Desktop/BrushlessMotor-Driver/source/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c">
+			<Option target="source.elf"/>
+		</Unit>
+		<Unit filename="D:/HC/Desktop/BrushlessMotor-Driver/source/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_adc.c">
+			<Option target="source.elf"/>
+		</Unit>
+		<Unit filename="D:/HC/Desktop/BrushlessMotor-Driver/source/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_adc_ex.c">
 			<Option target="source.elf"/>
 		</Unit>
 		<Unit filename="D:/HC/Desktop/BrushlessMotor-Driver/source/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c">

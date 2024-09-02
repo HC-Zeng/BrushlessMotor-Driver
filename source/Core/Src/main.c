@@ -19,6 +19,8 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "adc.h"
+#include "tim.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -28,7 +30,6 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-static uint8_t phase;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -53,136 +54,6 @@ static uint32_t GetTimeStampUS()
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-static void initStep()
-{
-    // A: --
-    HAL_GPIO_WritePin(A1_GPIO_Port,A1_Pin,1);
-    HAL_GPIO_WritePin(A2_GPIO_Port,A2_Pin,0);
-    // B: --
-    HAL_GPIO_WritePin(B1_GPIO_Port,B1_Pin,1);
-    HAL_GPIO_WritePin(B2_GPIO_Port,B2_Pin,0);
-    // C: --
-    HAL_GPIO_WritePin(C1_GPIO_Port,C1_Pin,1);
-    HAL_GPIO_WritePin(C2_GPIO_Port,C2_Pin,0);
-}
-static void stepAB()
-{
-    // A: 1
-    HAL_GPIO_WritePin(A1_GPIO_Port,A1_Pin,0);
-    HAL_GPIO_WritePin(A2_GPIO_Port,A2_Pin,0);
-
-    // B: 0
-    HAL_GPIO_WritePin(B1_GPIO_Port,B1_Pin,1);
-    HAL_GPIO_WritePin(B2_GPIO_Port,B2_Pin,1);
-
-    // C: --
-    HAL_GPIO_WritePin(C1_GPIO_Port,C1_Pin,1);
-    HAL_GPIO_WritePin(C2_GPIO_Port,C2_Pin,0);
-}
-
-static void stepAC()
-{
-    // A: 1
-    HAL_GPIO_WritePin(A1_GPIO_Port,A1_Pin,0);
-    HAL_GPIO_WritePin(A2_GPIO_Port,A2_Pin,0);
-
-    // C: 0
-    HAL_GPIO_WritePin(C1_GPIO_Port,C1_Pin,1);
-    HAL_GPIO_WritePin(C2_GPIO_Port,C2_Pin,1);
-
-    // B: --
-    HAL_GPIO_WritePin(B1_GPIO_Port,B1_Pin,1);
-    HAL_GPIO_WritePin(B2_GPIO_Port,B2_Pin,0);
-}
-
-static void stepBC()
-{
-    // B: 1
-    HAL_GPIO_WritePin(B1_GPIO_Port,B1_Pin,0);
-    HAL_GPIO_WritePin(B2_GPIO_Port,B2_Pin,0);
-
-    // C: 0
-    HAL_GPIO_WritePin(C1_GPIO_Port,C1_Pin,1);
-    HAL_GPIO_WritePin(C2_GPIO_Port,C2_Pin,1);
-
-    // A: --
-    HAL_GPIO_WritePin(A1_GPIO_Port,A1_Pin,1);
-    HAL_GPIO_WritePin(A2_GPIO_Port,A2_Pin,0);
-}
-
-static void stepBA()
-{
-    // B: 1
-    HAL_GPIO_WritePin(B1_GPIO_Port,B1_Pin,0);
-    HAL_GPIO_WritePin(B2_GPIO_Port,B2_Pin,0);
-
-    // A: 0
-    HAL_GPIO_WritePin(A1_GPIO_Port,A1_Pin,1);
-    HAL_GPIO_WritePin(A2_GPIO_Port,A2_Pin,1);
-
-    // C: --
-    HAL_GPIO_WritePin(C1_GPIO_Port,C1_Pin,1);
-    HAL_GPIO_WritePin(C2_GPIO_Port,C2_Pin,0);
-}
-
-static void stepCA()
-{
-    // C: 1
-    HAL_GPIO_WritePin(C1_GPIO_Port,C1_Pin,0);
-    HAL_GPIO_WritePin(C2_GPIO_Port,C2_Pin,0);
-
-    // A: 0
-    HAL_GPIO_WritePin(A1_GPIO_Port,A1_Pin,1);
-    HAL_GPIO_WritePin(A2_GPIO_Port,A2_Pin,1);
-
-    // B: --
-    HAL_GPIO_WritePin(B1_GPIO_Port,B1_Pin,1);
-    HAL_GPIO_WritePin(B2_GPIO_Port,B2_Pin,0);
-}
-
-static void stepCB()
-{
-    // C: 1
-    HAL_GPIO_WritePin(C1_GPIO_Port,C1_Pin,0);
-    HAL_GPIO_WritePin(C2_GPIO_Port,C2_Pin,0);
-
-    // B: 0
-    HAL_GPIO_WritePin(B1_GPIO_Port,B1_Pin,1);
-    HAL_GPIO_WritePin(B2_GPIO_Port,B2_Pin,1);
-
-    // A: --
-    HAL_GPIO_WritePin(A1_GPIO_Port,A1_Pin,1);
-    HAL_GPIO_WritePin(A2_GPIO_Port,A2_Pin,0);
-}
-
-void nextStep()
-{
-    switch (phase)
-    {
-        case 0:
-            stepAB();
-            break;
-        case 1:
-            stepAC();
-            break;
-        case 2:
-            stepBC();
-            break;
-        case 3:
-            stepBA();
-            break;
-        case 4:
-            stepCA();
-            break;
-        case 5:
-            stepCB();
-            break;
-        default:
-            phase = 0;
-    }
-    phase ++;
-    phase = phase % 6; // 0, 1, 2, 3, 4, 5
-}
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -224,21 +95,33 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_TIM1_Init();
+  MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
   static uint32_t timeStamp;
 
-  initStep();
+  HAL_TIM_Base_Start_IT(&htim1);
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
+  HAL_ADC_Start(&hadc1);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+    uint32_t crr=0;
   while (1)
   {
-      uint32_t crr = GetTimeStampUS();
-      if(crr - timeStamp >= 20000)
+      HAL_ADC_PollForConversion(&hadc1,HAL_MAX_DELAY);
+      uint32_t dr = HAL_ADC_GetValue(&hadc1);
+//      float voltage = dr*(3.3f-0.0f)/4095.0f;
+      if(HAL_GPIO_ReadPin(LED_GPIO_Port,LED_Pin))
       {
-          timeStamp = crr;
-          nextStep();
+          HAL_GPIO_WritePin(LED_GPIO_Port,LED_Pin,0);
+      }
+      else
+      {
+          HAL_GPIO_WritePin(LED_GPIO_Port,LED_Pin,1);
       }
 
     /* USER CODE END WHILE */
@@ -256,6 +139,7 @@ void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+  RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
 
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
@@ -284,10 +168,30 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_ADC;
+  PeriphClkInit.AdcClockSelection = RCC_ADCPCLK2_DIV6;
+  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
+  {
+    Error_Handler();
+  }
 }
 
 /* USER CODE BEGIN 4 */
-
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+    if(htim->Instance==TIM1)
+    {
+//        HAL_ADC_Start(&hadc1);
+//        if(HAL_GPIO_ReadPin(LED_GPIO_Port,LED_Pin))
+//        {
+//            HAL_GPIO_WritePin(LED_GPIO_Port,LED_Pin,0);
+//        }
+//        else
+//        {
+//            HAL_GPIO_WritePin(LED_GPIO_Port,LED_Pin,1);
+//        }
+    }
+}
 /* USER CODE END 4 */
 
 /**
