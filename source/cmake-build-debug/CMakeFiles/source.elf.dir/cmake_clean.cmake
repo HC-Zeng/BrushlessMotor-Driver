@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/source.elf.dir/Core/Src/adc.c.obj"
+  "CMakeFiles/source.elf.dir/Core/Src/dma.c.obj"
   "CMakeFiles/source.elf.dir/Core/Src/gpio.c.obj"
   "CMakeFiles/source.elf.dir/Core/Src/main.c.obj"
   "CMakeFiles/source.elf.dir/Core/Src/stm32f1xx_hal_msp.c.obj"
@@ -8,6 +9,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/source.elf.dir/Core/Src/sysmem.c.obj"
   "CMakeFiles/source.elf.dir/Core/Src/system_stm32f1xx.c.obj"
   "CMakeFiles/source.elf.dir/Core/Src/tim.c.obj"
+  "CMakeFiles/source.elf.dir/Core/Src/usart.c.obj"
   "CMakeFiles/source.elf.dir/Core/Startup/startup_stm32f103c8tx.s.obj"
   "CMakeFiles/source.elf.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c.obj"
   "CMakeFiles/source.elf.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_adc.c.obj"
@@ -24,6 +26,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/source.elf.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c.obj"
   "CMakeFiles/source.elf.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c.obj"
   "CMakeFiles/source.elf.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.c.obj"
+  "CMakeFiles/source.elf.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.c.obj"
   "source.elf"
   "source.elf.manifest"
   "source.elf.pdb"

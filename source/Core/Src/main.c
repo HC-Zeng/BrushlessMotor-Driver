@@ -20,16 +20,19 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "adc.h"
+#include "dma.h"
 #include "tim.h"
+#include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "stdio.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
+uint16_t adc1_val_buf[2]; // 2 channel ADC value
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -38,22 +41,13 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-static uint32_t GetTimeStampUS()
-{
-    // get ms
-    uint32_t m = HAL_GetTick();
-    // get tick reload value
-    const uint32_t tms = SysTick->LOAD + 1;
-    // get tick value
-    __IO uint32_t u = tms - SysTick->VAL;
-    // return value
-    return(m*1000+(u*1000)/tms);
-}
+
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -64,7 +58,16 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+#ifdef __GNUC__
 
+#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
+
+PUTCHAR_PROTOTYPE
+{
+    HAL_UART_Transmit(&huart3, (uint8_t*)&ch, 1, HAL_MAX_DELAY);
+    return ch;
+}
+#endif
 /* USER CODE END 0 */
 
 /**
@@ -95,35 +98,26 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_TIM1_Init();
   MX_ADC1_Init();
+  MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
-  static uint32_t timeStamp;
-
-  HAL_TIM_Base_Start_IT(&htim1);
-  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
-  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
-  HAL_ADC_Start(&hadc1);
-
+    HAL_TIM_Base_Start_IT(&htim1);
+    HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+    HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
+    HAL_ADC_Start(&hadc1);
+    if(HAL_ADC_Start_DMA(&hadc1, (uint32_t*)&adc1_val_buf, 2) != HAL_OK)
+    {
+        /* Start Conversation Error */
+        Error_Handler();
+    }
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-    uint32_t crr=0;
   while (1)
   {
-      HAL_ADC_PollForConversion(&hadc1,HAL_MAX_DELAY);
-      uint32_t dr = HAL_ADC_GetValue(&hadc1);
-//      float voltage = dr*(3.3f-0.0f)/4095.0f;
-      if(HAL_GPIO_ReadPin(LED_GPIO_Port,LED_Pin))
-      {
-          HAL_GPIO_WritePin(LED_GPIO_Port,LED_Pin,0);
-      }
-      else
-      {
-          HAL_GPIO_WritePin(LED_GPIO_Port,LED_Pin,1);
-      }
-
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -180,16 +174,17 @@ void SystemClock_Config(void)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
     if(htim->Instance==TIM1)
+
     {
-//        HAL_ADC_Start(&hadc1);
-//        if(HAL_GPIO_ReadPin(LED_GPIO_Port,LED_Pin))
-//        {
-//            HAL_GPIO_WritePin(LED_GPIO_Port,LED_Pin,0);
-//        }
-//        else
-//        {
-//            HAL_GPIO_WritePin(LED_GPIO_Port,LED_Pin,1);
-//        }
+        printf("%d %d\n",adc1_val_buf[0],adc1_val_buf[1]);
+        if(HAL_GPIO_ReadPin(LED_GPIO_Port,LED_Pin))
+        {
+            HAL_GPIO_WritePin(LED_GPIO_Port,LED_Pin,0);
+        }
+        else
+        {
+            HAL_GPIO_WritePin(LED_GPIO_Port,LED_Pin,1);
+        }
     }
 }
 /* USER CODE END 4 */
